@@ -1,70 +1,83 @@
 <?php
-session_start();
 require_once '../config/db.php';
 require_once '../controllers/AtividadeController.php';
+require_once 'includes/auth_check.php';
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit();
+if (!isset($_GET['id']) || empty($_GET['id'])) {
+    header("Location: diario.php");
+    exit;
 }
 
-// Cria uma nova conexão
+$id = intval($_GET['id']);
+
 $database = new Database();
 $db = $database->getConnection();
-
-// Cria o controlador
 $atividadeController = new AtividadeController($db);
+$atividade = $atividadeController->getAtividadeById($id);
+
+if (!$atividade) {
+    header("Location: diario.php");
+    exit;
+}
+
+$mensagem = '';
+$tipoMensagem = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['id'])) {
-        $atividadeId = $_POST['id'];
+        $atividadeId = intval($_POST['id']);
         if ($atividadeController->excluirAtividade($atividadeId)) {
-            $success = "Atividade excluída com sucesso!";
-            header("Location: turmas.php?success=" . urlencode($success));
-            exit();
+            header("Location: diario.php?success=" . urlencode("Atividade excluída com sucesso!"));
+            exit;
         } else {
-            $error = "Erro ao excluir a atividade.";
+            $mensagem = "Erro ao excluir a atividade.";
+            $tipoMensagem = "error";
         }
     } else {
-        $error = "ID da atividade não encontrado.";
-    }
-} else {
-    // Carrega a atividade para confirmação de exclusão
-    if (isset($_GET['id'])) {
-        $atividadeId = $_GET['id'];
-        $atividade = $atividadeController->getAtividadeById($atividadeId);
-
-        if (!$atividade) {
-            die("Atividade não encontrada.");
-        }
-    } else {
-        die("ID da atividade não encontrado.");
+        $mensagem = "ID da atividade não encontrado.";
+        $tipoMensagem = "error";
     }
 }
+
+$navLinks = [
+    'Home' => 'dashboard.php',
+    'Diário de Classe' => 'diario.php',
+    'Sair' => 'logout.php'
+];
+
+$pageTitle = 'Excluir Atividade';
+include 'includes/head.php';
+include 'includes/navbar.php';
 ?>
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Excluir Atividade</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-</head>
-<body class="bg-white text-gray-800">
-<div class="container mx-auto px-4 py-8">
-    <form id="delete-form" method="post" action="" class="bg-gray-200 p-4 rounded-lg shadow-lg">
+<div class="container mx-auto px-4 py-8 max-w-md">
+    <form id="delete-form" method="post" action="" class="bg-white p-6 rounded-lg shadow-lg">
         <h1 class="text-2xl font-bold mb-4">Excluir Atividade</h1>
         
-        <input type="hidden" name="id" value="<?php echo isset($atividadeId) ? htmlspecialchars($atividadeId) : ''; ?>">
-        <p class="mb-4">Você tem certeza de que deseja excluir a atividade "<strong class="text-blue-500"><?php echo isset($atividade['titulo']) ? htmlspecialchars($atividade['titulo']) : ''; ?></strong>"?</p>
-        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">Excluir</button>
-        <a href="atividades.php" class="text-blue-500 hover:text-blue-700">Cancelar</a>
+        <input type="hidden" name="id" value="<?php echo $id; ?>">
+        
+        <p class="mb-4 text-gray-700">
+            Você tem certeza de que deseja excluir a atividade 
+            "<strong class="text-blue-500"><?php echo htmlspecialchars($atividade['titulo']); ?></strong>"?
+        </p>
+        
+        <?php include 'includes/messages.php'; ?>
+        
+        <div class="flex justify-center space-x-4 mt-6">
+            <button 
+                type="submit" 
+                class="bg-red-500 hover:bg-red-700 text-white py-2 px-4 rounded transition"
+            >
+                Excluir
+            </button>
+            <a 
+                href="diario.php" 
+                class="bg-gray-500 hover:bg-gray-700 text-white py-2 px-4 rounded transition"
+            >
+                Cancelar
+            </a>
+        </div>
     </form>
-
-    <?php if (isset($error)): ?>
-        <p class="text-red-500 mt-4"><?php echo htmlspecialchars($error); ?></p>
-    <?php endif; ?>
 </div>
-</body>
-</html>
+
+<?php include 'includes/footer.php'; ?>
