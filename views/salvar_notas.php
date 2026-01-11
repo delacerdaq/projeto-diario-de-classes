@@ -9,15 +9,11 @@ require_once 'includes/auth_check.php';
 $database = new Database();
 $db = $database->getConnection();
 
-// Cria instâncias do controlador
 $notaController = new NotaController($db);
 $turmaController = new TurmaController();
 $alunoController = new AlunoController($db);
 
-// Recupera as turmas
 $turmas = $turmaController->getAllTurmas();
-
-// Endpoint para listar alunos por turma (AJAX)
 if (isset($_GET['turma_id'])) {
     $turma_id = intval($_GET['turma_id']);
     $stmt = $alunoController->listarAlunosPorTurmaId($turma_id);
@@ -28,7 +24,6 @@ if (isset($_GET['turma_id'])) {
     exit;
 }
 
-// Verifica se os dados foram enviados pelo método POST
 $mensagem = '';
 $tipoMensagem = '';
 
@@ -41,9 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $pr = isset($_POST['pr']) && $_POST['pr'] !== '' ? floatval($_POST['pr']) : null;
     $pf = isset($_POST['pf']) && $_POST['pf'] !== '' ? floatval($_POST['pf']) : null;
 
-    // Validação básica
     if ($turma_id && $aluno_id && $trimestre && $ano && ($pi !== null || $pr !== null || $pf !== null)) {
-        // Validar limites por trimestre usando constantes
         $erroValidacao = false;
         
         if (isset(NOTA_LIMITS[$trimestre])) {
@@ -85,7 +78,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Configurar links da navbar
 $navLinks = [
     'Home' => 'dashboard.php',
     'Diário de Classe' => 'diario.php',
@@ -99,16 +91,11 @@ include 'includes/navbar.php';
 ?>
 
 <div class="container mx-auto p-6 max-w-4xl">
-    <!-- Título -->
     <h1 class="text-3xl font-bold text-center mb-6 text-gray-800">Lançar Notas dos Alunos</h1>
     
-    <!-- Mensagem de sucesso/erro -->
     <?php include 'includes/messages.php'; ?>
-
-    <!-- Formulário -->
     <div class="bg-white rounded-lg shadow-lg p-6">
         <form method="POST" action="salvar_notas.php" id="notaForm" class="space-y-6">
-            <!-- Turma -->
             <div>
                 <label for="turma_id" class="block text-sm font-medium text-gray-700 mb-2">Turma *</label>
                 <select 
@@ -127,7 +114,6 @@ include 'includes/navbar.php';
                 </select>
             </div>
 
-            <!-- Aluno -->
             <div>
                 <label for="aluno_id" class="block text-sm font-medium text-gray-700 mb-2">Aluno *</label>
                 <select 
@@ -140,7 +126,6 @@ include 'includes/navbar.php';
                 </select>
             </div>
 
-            <!-- Trimestre e Ano -->
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label for="trimestre" class="block text-sm font-medium text-gray-700 mb-2">Trimestre *</label>
@@ -172,7 +157,6 @@ include 'includes/navbar.php';
                 </div>
             </div>
 
-            <!-- Notas -->
             <div class="border-t pt-6">
                 <h3 class="text-lg font-semibold text-gray-800 mb-4">Notas</h3>
                 <div class="grid grid-cols-3 gap-4">
@@ -233,7 +217,6 @@ include 'includes/navbar.php';
                 </p>
             </div>
 
-            <!-- Botões -->
             <div class="flex justify-end space-x-4 pt-4 border-t">
                 <a 
                     href="dashboard.php" 

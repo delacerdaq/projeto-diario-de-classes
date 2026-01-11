@@ -1,8 +1,3 @@
-/**
- * JavaScript para a página de lançamento de notas
- */
-
-// Tornar função global para uso em atributos HTML
 window.listarAlunosPorTurma = function(turmaId) {
     const alunoSelect = document.getElementById('aluno_id');
     if (!alunoSelect) return;
@@ -44,9 +39,6 @@ window.listarAlunosPorTurma = function(turmaId) {
         });
 };
 
-/**
- * Atualiza os limites das notas baseado no trimestre selecionado
- */
 function atualizarLimitesNotas() {
     const trimestre = document.getElementById('trimestre')?.value;
     const piInput = document.getElementById('pi');
@@ -61,7 +53,6 @@ function atualizarLimitesNotas() {
     let maxPi, maxPr, maxPf, labelPi, labelPr, labelPf;
 
     if (trimestre === '1') {
-        // 1º Trimestre: PI=6, PR=12, PF=12
         maxPi = 6;
         maxPr = 12;
         maxPf = 12;
@@ -69,7 +60,6 @@ function atualizarLimitesNotas() {
         labelPr = '(máx: 12 pontos)';
         labelPf = '(máx: 12 pontos)';
     } else if (trimestre === '2' || trimestre === '3') {
-        // 2º e 3º Trimestres: PI=7, PR=14, PF=14
         maxPi = 7;
         maxPr = 14;
         maxPf = 14;
@@ -77,7 +67,6 @@ function atualizarLimitesNotas() {
         labelPr = '(máx: 14 pontos)';
         labelPf = '(máx: 14 pontos)';
     } else {
-        // Sem trimestre selecionado, usar valores padrão do 1º trimestre
         maxPi = 6;
         maxPr = 12;
         maxPf = 12;
@@ -94,15 +83,11 @@ function atualizarLimitesNotas() {
     if (prLabel) prLabel.textContent = labelPr;
     if (pfLabel) pfLabel.textContent = labelPf;
 
-    // Limpar valores se excederem o novo máximo
     if (parseFloat(piInput.value) > maxPi) piInput.value = '';
     if (parseFloat(prInput.value) > maxPr) prInput.value = '';
     if (parseFloat(pfInput.value) > maxPf) pfInput.value = '';
 }
 
-/**
- * Valida o formulário antes do envio
- */
 function validarFormularioNotas(e) {
     const pi = parseFloat(document.getElementById('pi')?.value) || 0;
     const pr = parseFloat(document.getElementById('pr')?.value) || 0;
@@ -121,7 +106,6 @@ function validarFormularioNotas(e) {
         return false;
     }
 
-    // Validar limites baseado no trimestre
     let maxPi, maxPr, maxPf;
     if (trimestre === '1') {
         maxPi = 6;
@@ -158,7 +142,6 @@ function validarFormularioNotas(e) {
     return true;
 }
 
-// Inicialização quando o DOM estiver pronto
 document.addEventListener('DOMContentLoaded', function() {
     const trimestreSelect = document.getElementById('trimestre');
     const notaForm = document.getElementById('notaForm');
@@ -171,6 +154,5 @@ document.addEventListener('DOMContentLoaded', function() {
         notaForm.addEventListener('submit', validarFormularioNotas);
     }
 
-    // Inicializar limites ao carregar a página
     atualizarLimitesNotas();
 });

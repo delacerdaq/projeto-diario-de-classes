@@ -18,7 +18,7 @@ class User {
 
         $this->username = htmlspecialchars(strip_tags($this->username));
         $this->email = htmlspecialchars(strip_tags($this->email));
-        $this->password = password_hash($this->password, PASSWORD_DEFAULT); // Criptografa a senha
+        $this->password = password_hash($this->password, PASSWORD_DEFAULT);
 
         $stmt->bindParam(":username", $this->username);
         $stmt->bindParam(":email", $this->email);

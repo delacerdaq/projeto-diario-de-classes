@@ -49,9 +49,9 @@ class AtividadeController {
         $atividade = $this->atividadeModel->readById($id);
         
         if ($atividade) {
-            return $atividade; // Se a atividade existe, retorna
+            return $atividade;
         } else {
-            return false; // Caso contrário, retorna false
+            return false;
         }
     }
     

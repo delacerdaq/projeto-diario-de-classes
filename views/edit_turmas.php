@@ -7,7 +7,6 @@ $turmaController = new TurmaController();
 $turma = null;
 $turma_id = isset($_GET['turma_id']) ? intval($_GET['turma_id']) : 0;
 
-// Se for POST, pegar o ID do POST, senão do GET
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $turma_id = isset($_POST['turma_id']) ? intval($_POST['turma_id']) : $turma_id;
 }
@@ -35,11 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mensagem = "Erro: ID da turma inválido.";
         $tipoMensagem = "error";
     } else {
-        // Verificar se o nome foi alterado antes de atualizar
         $nomeAntigo = isset($turma['nome']) ? $turma['nome'] : '';
         if ($nome !== $nomeAntigo) {
             if ($turmaController->updateTurma($turma_id, $nome)) {
-                // Redirecionar após sucesso
                 header("Location: turmas.php?turma_id=" . $turma_id . "&success=" . urlencode("Turma atualizada com sucesso!"));
                 exit;
             } else {

@@ -7,9 +7,7 @@ class Nota {
         $this->conn = $db;
     }
 
-    // Função para adicionar ou atualizar notas
     public function salvarNota($aluno_id, $turma_id, $trimestre, $ano, $pi, $pr, $pf) {
-        // Verifica se já existe uma nota para esse aluno no trimestre e ano
         $query = "SELECT * FROM " . $this->table_name . " 
                   WHERE aluno_id = :aluno_id AND turma_id = :turma_id AND trimestre = :trimestre AND ano = :ano";
         $stmt = $this->conn->prepare($query);
@@ -20,12 +18,10 @@ class Nota {
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            // Se existir, faz o update
             $query = "UPDATE " . $this->table_name . " 
                       SET pi = :pi, pr = :pr, pf = :pf 
                       WHERE aluno_id = :aluno_id AND turma_id = :turma_id AND trimestre = :trimestre AND ano = :ano";
         } else {
-            // Se não existir, faz o insert
             $query = "INSERT INTO " . $this->table_name . " (aluno_id, turma_id, trimestre, ano, pi, pr, pf) 
                       VALUES (:aluno_id, :turma_id, :trimestre, :ano, :pi, :pr, :pf)";
         }
@@ -42,7 +38,6 @@ class Nota {
         return $stmt->execute();
     }
 
-    // Função para listar as notas de um aluno por trimestre e ano
     public function listarNotas($aluno_id, $turma_id, $trimestre, $ano) {
         $query = "SELECT * FROM " . $this->table_name . " 
                   WHERE aluno_id = :aluno_id AND turma_id = :turma_id AND trimestre = :trimestre AND ano = :ano";
@@ -55,12 +50,10 @@ class Nota {
         return $stmt;
     }
 
-    // Função para listar todos os alunos com suas notas filtradas por trimestre e ano
     public function listarAlunosComNotas($trimestre = null, $ano = null) {
         $conditions = [];
         $params = [];
 
-        // Se houver filtros, usa INNER JOIN para mostrar apenas alunos com notas
         if (($trimestre !== null && $trimestre !== '') || ($ano !== null && $ano !== '')) {
             $query = "
                 SELECT 
@@ -92,7 +85,6 @@ class Nota {
                 $query .= " WHERE " . implode(" AND ", $conditions);
             }
         } else {
-            // Sem filtros, mostra todos os alunos com LEFT JOIN para incluir notas se existirem
             $query = "
                 SELECT 
                     a.id AS aluno_id,

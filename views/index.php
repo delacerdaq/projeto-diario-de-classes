@@ -7,7 +7,6 @@
     <title>Sistema de Diário de Classes</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <style>
-        /* Ajustes para o carrossel */
         .carousel-slide {
             min-width: 100%;
             height: 100%;

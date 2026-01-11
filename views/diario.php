@@ -21,7 +21,6 @@ include 'includes/navbar.php';
 <div class="container mx-auto mt-6">
     <h2 class="text-2xl font-semibold text-gray-800">Atividades Desenvolvidas com a Turma</h2>
     
-    <!-- Botão para adicionar nova atividade -->
     <div class="mt-4 mb-4">
         <a 
             href="add_activity.php" 
@@ -31,7 +30,6 @@ include 'includes/navbar.php';
         </a>
     </div>
 
-    <!-- Lista de Atividades -->
     <div class="bg-white shadow-md rounded-lg p-6">
         <h3 class="text-xl font-semibold mb-4">Lista de Atividades</h3>
 

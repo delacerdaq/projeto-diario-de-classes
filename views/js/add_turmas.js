@@ -1,7 +1,3 @@
-/**
- * JavaScript para adicionar campos de alunos dinamicamente
- */
-
 window.adicionarCampoAluno = function() {
     const container = document.getElementById('alunos-container');
     if (!container) return;

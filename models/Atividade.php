@@ -80,7 +80,6 @@ class Atividade {
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
-        // Retorna a atividade se encontrada
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
     

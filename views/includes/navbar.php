@@ -4,7 +4,6 @@
  * @param array $links Array associativo com os links [texto => url]
  */
 if (!isset($navLinks)) {
-    // Links padrão se não for especificado
     $navLinks = [
         'Home' => 'dashboard.php',
         'Diário de Classe' => 'diario.php',

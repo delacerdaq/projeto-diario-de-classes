@@ -7,20 +7,16 @@ $database = new Database();
 $db = $database->getConnection();
 $notaController = new NotaController($db);
 
-// Obter filtros (trimestre e ano)
 $trimestre = isset($_GET['trimestre']) && $_GET['trimestre'] !== '' ? intval($_GET['trimestre']) : null;
 $ano = isset($_GET['ano']) && $_GET['ano'] !== '' ? intval($_GET['ano']) : null;
 
-// Obter os alunos com suas notas filtradas
 $stmt = $notaController->listarAlunosComNotas($trimestre, $ano);
 $alunos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-// Agrupar alunos para evitar duplicatas (quando um aluno tem múltiplas notas)
 $alunosAgrupados = [];
 foreach ($alunos as $aluno) {
     $key = ($aluno['aluno_id'] ?? '') . '_' . ($aluno['turma_id'] ?? '');
     
-    // Se já existe, mantém a primeira ocorrência (ou pode escolher a mais recente)
     if (!isset($alunosAgrupados[$key])) {
         $alunosAgrupados[$key] = $aluno;
     }
@@ -28,7 +24,6 @@ foreach ($alunos as $aluno) {
 
 $alunos = array_values($alunosAgrupados);
 
-// Configurar links da navbar
 $navLinks = [
     'Home' => 'dashboard.php',
     'Diário de Classe' => 'diario.php',
@@ -42,13 +37,10 @@ include 'includes/navbar.php';
 ?>
 
 <div class="container mx-auto p-4">
-    <!-- Título -->
     <h1 class="text-2xl font-semibold text-center mb-6">Notas dos Alunos</h1>
     
-    <!-- Filtro (Ano e Trimestre) -->
     <form method="GET" action="avaliacoes.php" class="mb-6">
         <div class="flex justify-center space-x-4 mb-4">
-            <!-- Input para filtrar por ano -->
             <div class="w-1/3">
                 <label for="ano" class="block text-sm font-medium text-gray-700">Ano</label>
                 <input 
@@ -63,7 +55,6 @@ include 'includes/navbar.php';
                 />
             </div>
 
-            <!-- Input para filtrar por trimestre -->
             <div class="w-1/3">
                 <label for="trimestre" class="block text-sm font-medium text-gray-700">Trimestre</label>
                 <select 
@@ -79,7 +70,6 @@ include 'includes/navbar.php';
             </div>
         </div>
 
-        <!-- Botões de Filtrar e Limpar -->
         <div class="flex justify-center space-x-4">
             <button 
                 type="submit" 
@@ -96,7 +86,6 @@ include 'includes/navbar.php';
         </div>
     </form>
 
-    <!-- Informação sobre filtros -->
     <?php if ($trimestre !== null || $ano !== null): ?>
         <div class="mb-4 p-3 bg-blue-100 text-blue-800 rounded-lg text-center">
             <p class="text-sm">
@@ -111,7 +100,6 @@ include 'includes/navbar.php';
         </div>
     <?php endif; ?>
 
-    <!-- Tabela de Notas -->
     <div class="overflow-x-auto">
         <div class="max-w-full mx-auto">
             <table class="w-full bg-white shadow-md rounded-lg overflow-hidden">
@@ -128,7 +116,6 @@ include 'includes/navbar.php';
                 <tbody>
                     <?php if (!empty($alunos)): ?>
                         <?php 
-                        // Usar um array para rastrear avatares por aluno
                         $avatarCache = [];
                         foreach ($alunos as $aluno): 
                             $alunoKey = md5($aluno['aluno_nome'] ?? '');

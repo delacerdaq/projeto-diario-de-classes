@@ -36,7 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if ($atividadeController->atualizarAtividade($id, $titulo, $data, $descricao, $turma_id)) {
             $mensagem = "Atividade atualizada com sucesso!";
             $tipoMensagem = "success";
-            // Atualizar dados locais
             $atividade['titulo'] = $titulo;
             $atividade['data'] = $data;
             $atividade['descricao'] = $descricao;

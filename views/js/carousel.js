@@ -1,7 +1,3 @@
-/**
- * JavaScript para carrossel de imagens
- */
-
 (function() {
     const carousel = document.getElementById('carousel');
     const prevBtn = document.getElementById('prevBtn');
@@ -10,7 +6,7 @@
     if (!carousel || !prevBtn || !nextBtn) return;
 
     let index = 0;
-    const totalSlides = 4; // Ajustar conforme necessário
+    const totalSlides = 4;
 
     function updateCarousel() {
         const width = carousel.clientWidth;

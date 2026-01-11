@@ -5,7 +5,6 @@ require_once 'includes/auth_check.php';
 $turmaController = new TurmaController();
 $turmas = $turmaController->getAllTurmas();
 
-// Verificar mensagens de sucesso/erro
 $mensagem = '';
 $tipoMensagem = '';
 if (isset($_GET['success'])) {

@@ -15,7 +15,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['turma_id'], $_POST['d
     $dataChamada = $_POST['data_chamada'];
     $alunosFrequencia = $_POST['frequencia'] ?? [];
     
-    // Salvar a chamada no banco de dados
     $sucesso = true;
     foreach ($alunosFrequencia as $alunoId => $presenca) {
         if (!$frequenciaController->saveFrequencia($alunoId, $turmaId, $dataChamada, $presenca)) {

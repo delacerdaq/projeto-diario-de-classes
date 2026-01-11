@@ -42,9 +42,7 @@ class AuthController {
         session_unset();
         session_destroy();
 
-        // Verifique se a sessão foi destruída corretamente
         if (session_status() == PHP_SESSION_NONE) {
-            // Redireciona para a página de login
             header("Location: ../views/login.php");
             exit;
         } else {
