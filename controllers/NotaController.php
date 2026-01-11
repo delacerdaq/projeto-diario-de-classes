@@ -14,4 +14,8 @@ class NotaController {
     public function listarNotas($aluno_id, $turma_id, $trimestre, $ano) {
         return $this->nota->listarNotas($aluno_id, $turma_id, $trimestre, $ano);
     }
+
+    public function listarAlunosComNotas($trimestre = null, $ano = null) {
+        return $this->nota->listarAlunosComNotas($trimestre, $ano);
+    }
 }

@@ -50,7 +50,7 @@ class TurmaController {
     }
     
     public function updateTurma($id, $nome) {
-        $this->turmaModel->update($id, $nome); // Atualize a turma no modelo
+        return $this->turmaModel->update($id, $nome); // Atualize a turma no modelo e retorna o resultado
     }    
     
     public function getAlunosByTurmaId($turma_id) {
