@@ -53,6 +53,20 @@ class Aluno {
         return $stmt; // Retorna o statement para ser utilizado no controlador
     }
 
+    public function ListingReadByTurmaId($turma_id) {
+        $query = "SELECT id, nome FROM " . $this->table_name . " WHERE turma_id = :turma_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':turma_id', $turma_id, PDO::PARAM_INT);
+    
+        try {
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC); // Retorna os dados como array associativo
+        } catch (PDOException $e) {
+            error_log("Erro ao listar alunos por turma: " . $e->getMessage());
+            return [];
+        }
+    }
+
     // Método para editar alunos
     public function update() {
         $query = "UPDATE " . $this->table_name . " SET nome = :nome, turma_id = :turma_id WHERE id = :id";

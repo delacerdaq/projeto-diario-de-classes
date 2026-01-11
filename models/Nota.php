@@ -54,4 +54,71 @@ class Nota {
         $stmt->execute();
         return $stmt;
     }
+
+    // Função para listar todos os alunos com suas notas filtradas por trimestre e ano
+    public function listarAlunosComNotas($trimestre = null, $ano = null) {
+        $conditions = [];
+        $params = [];
+
+        // Se houver filtros, usa INNER JOIN para mostrar apenas alunos com notas
+        if (($trimestre !== null && $trimestre !== '') || ($ano !== null && $ano !== '')) {
+            $query = "
+                SELECT 
+                    a.id AS aluno_id,
+                    a.nome AS aluno_nome,
+                    t.id AS turma_id,
+                    t.nome AS turma_nome,
+                    n.pi AS PI,
+                    n.pr AS PR,
+                    n.pf AS PF,
+                    n.trimestre,
+                    n.ano
+                FROM alunos a
+                INNER JOIN turmas t ON a.turma_id = t.id
+                INNER JOIN " . $this->table_name . " n ON a.id = n.aluno_id AND a.turma_id = n.turma_id
+            ";
+
+            if ($trimestre !== null && $trimestre !== '') {
+                $conditions[] = "n.trimestre = :trimestre";
+                $params[':trimestre'] = $trimestre;
+            }
+
+            if ($ano !== null && $ano !== '') {
+                $conditions[] = "n.ano = :ano";
+                $params[':ano'] = $ano;
+            }
+
+            if (count($conditions) > 0) {
+                $query .= " WHERE " . implode(" AND ", $conditions);
+            }
+        } else {
+            // Sem filtros, mostra todos os alunos com LEFT JOIN para incluir notas se existirem
+            $query = "
+                SELECT 
+                    a.id AS aluno_id,
+                    a.nome AS aluno_nome,
+                    t.id AS turma_id,
+                    t.nome AS turma_nome,
+                    n.pi AS PI,
+                    n.pr AS PR,
+                    n.pf AS PF,
+                    n.trimestre,
+                    n.ano
+                FROM alunos a
+                INNER JOIN turmas t ON a.turma_id = t.id
+                LEFT JOIN " . $this->table_name . " n ON a.id = n.aluno_id AND a.turma_id = n.turma_id
+            ";
+        }
+
+        $query .= " ORDER BY t.nome, a.nome";
+
+        $stmt = $this->conn->prepare($query);
+        
+        foreach ($params as $key => $value) {
+            $stmt->bindValue($key, $value);
+        }
+
+        $stmt->execute();
+        return $stmt;
+    }
 }
