@@ -48,9 +48,9 @@ CREATE TABLE notas (
     turma_id INT NOT NULL,
     trimestre INT NOT NULL CHECK (trimestre BETWEEN 1 AND 3),
     ano INT NOT NULL,
-    pi DECIMAL(5,2),
-    pr DECIMAL(5,2),
-    pf DECIMAL(5,2),
+    pi DECIMAL(5,2), -- 1º Trimestre: máx 6 pontos | 2º e 3º Trimestres: máx 7 pontos
+    pr DECIMAL(5,2), -- 1º Trimestre: máx 12 pontos | 2º e 3º Trimestres: máx 14 pontos
+    pf DECIMAL(5,2), -- 1º Trimestre: máx 12 pontos | 2º e 3º Trimestres: máx 14 pontos
     FOREIGN KEY (aluno_id) REFERENCES alunos(id),
     FOREIGN KEY (turma_id) REFERENCES turmas(id)
 );
