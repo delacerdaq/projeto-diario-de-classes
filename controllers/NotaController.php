@@ -1,9 +1,11 @@
 <?php
 require_once '../models/Nota.php';
+require_once '../config/db.php';
 class NotaController {
     private $nota;
 
-    public function __construct($db) {
+    public function __construct() {
+        $db = Database::getConnection();
         $this->nota = new Nota($db);
     }
 

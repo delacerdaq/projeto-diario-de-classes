@@ -46,10 +46,8 @@ include 'includes/navbar.php';
 <div class="container mx-auto px-4 my-10">
     <h1 class="text-3xl font-bold text-center mb-8">Controle de Frequência</h1>
 
-    <!-- Mensagens -->
     <?php include 'includes/messages.php'; ?>
 
-    <!-- Campo para inserir a data da chamada -->
     <form method="POST">
         <div class="mb-6 text-center">
             <label for="data-chamada" class="block text-gray-700 text-lg mb-2">Data da Chamada:</label>
@@ -63,7 +61,6 @@ include 'includes/navbar.php';
             >
         </div>
 
-        <!-- Select para filtrar turmas -->
         <div class="mb-6">
             <label for="turma-select" class="block text-gray-700 text-lg mb-2">Selecione a turma:</label>
             <select 
@@ -92,7 +89,6 @@ include 'includes/navbar.php';
             </select>
         </div>
 
-        <!-- Tabela de Controle de Frequência -->
         <?php if (isset($_GET['turma_id'])): 
             $turmaId = $_GET['turma_id'];
             $alunos = $turmaController->getAlunosByTurmaId($turmaId);
@@ -160,7 +156,6 @@ include 'includes/navbar.php';
             </table>
         </div>
 
-        <!-- Botão de salvar chamada -->
         <div class="mt-6 text-center">
             <button 
                 type="submit" 

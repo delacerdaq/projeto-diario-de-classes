@@ -1,12 +1,10 @@
 <?php
-require_once '../config/db.php';
 
 class Frequencia {
     private $conn;
 
-    public function __construct() {
-        $database = new Database();
-        $this->conn = $database->getConnection();
+    public function __construct($db) {
+        $this->conn = $db;
     }
 
     public function saveFrequencia($alunoId, $turmaId, $dataChamada, $presenca) {

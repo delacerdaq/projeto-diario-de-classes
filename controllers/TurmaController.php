@@ -1,6 +1,6 @@
 <?php
 require_once '../models/Turma.php';
-require_once '../models/Aluno.php'; // Adicionando o modelo de Aluno
+require_once '../models/Aluno.php';
 require_once '../config/db.php';
 
 class TurmaController {
@@ -8,8 +8,7 @@ class TurmaController {
     private $alunoModel;
 
     public function __construct() {
-        $database = new Database();
-        $db = $database->getConnection();
+        $db = Database::getConnection();
 
         $this->turmaModel = new Turma($db);
         $this->alunoModel = new Aluno($db);

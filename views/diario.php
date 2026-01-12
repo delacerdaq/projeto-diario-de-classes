@@ -1,11 +1,8 @@
 <?php
-require_once '../config/db.php';
 require_once '../controllers/AtividadeController.php';
 require_once 'includes/auth_check.php';
 
-$database = new Database();
-$db = $database->getConnection();
-$atividadeController = new AtividadeController($db);
+$atividadeController = new AtividadeController();
 $atividades = $atividadeController->listarAtividades();
 
 $navLinks = [

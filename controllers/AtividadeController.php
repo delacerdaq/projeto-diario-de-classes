@@ -1,12 +1,13 @@
 <?php
 require_once '../models/Atividade.php';
 require_once '../models/Turma.php';
-
+require_once '../config/db.php';
 class AtividadeController {
     private $atividadeModel;
     private $turmaModel;
 
-    public function __construct($db) {
+    public function __construct() {
+        $db = Database::getConnection();
         $this->atividadeModel = new Atividade($db);
         $this->turmaModel = new Turma($db);
     }

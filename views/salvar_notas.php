@@ -1,17 +1,13 @@
 <?php
-require_once '../config/db.php';
 require_once '../config/constants.php';
 require_once '../controllers/NotaController.php';
 require_once '../controllers/TurmaController.php';
 require_once '../controllers/AlunoController.php';
 require_once 'includes/auth_check.php';
 
-$database = new Database();
-$db = $database->getConnection();
-
-$notaController = new NotaController($db);
+$notaController = new NotaController();
 $turmaController = new TurmaController();
-$alunoController = new AlunoController($db);
+$alunoController = new AlunoController();
 
 $turmas = $turmaController->getAllTurmas();
 if (isset($_GET['turma_id'])) {

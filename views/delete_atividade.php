@@ -1,5 +1,4 @@
 <?php
-require_once '../config/db.php';
 require_once '../controllers/AtividadeController.php';
 require_once 'includes/auth_check.php';
 
@@ -10,9 +9,7 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 
 $id = intval($_GET['id']);
 
-$database = new Database();
-$db = $database->getConnection();
-$atividadeController = new AtividadeController($db);
+$atividadeController = new AtividadeController();
 $atividade = $atividadeController->getAtividadeById($id);
 
 if (!$atividade) {

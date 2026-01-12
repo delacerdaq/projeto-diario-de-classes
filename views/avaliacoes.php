@@ -1,11 +1,8 @@
 <?php
-require_once '../config/db.php';
 require_once '../controllers/NotaController.php';
 require_once 'includes/auth_check.php';
 
-$database = new Database();
-$db = $database->getConnection();
-$notaController = new NotaController($db);
+$notaController = new NotaController();
 
 $trimestre = isset($_GET['trimestre']) && $_GET['trimestre'] !== '' ? intval($_GET['trimestre']) : null;
 $ano = isset($_GET['ano']) && $_GET['ano'] !== '' ? intval($_GET['ano']) : null;

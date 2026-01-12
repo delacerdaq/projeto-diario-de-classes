@@ -1,11 +1,12 @@
 <?php
 require_once '../models/Frequencia.php';
-
+require_once '../config/db.php';
 class FrequenciaController {
     private $frequenciaModel;
 
     public function __construct() {
-        $this->frequenciaModel = new Frequencia();
+        $db = Database::getConnection();
+        $this->frequenciaModel = new Frequencia($db);
     }
 
     public function saveFrequencia($alunoId, $turmaId, $dataChamada, $presenca) {

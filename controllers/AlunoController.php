@@ -1,12 +1,13 @@
 <?php
 require_once '../models/Aluno.php';
 require_once '../models/Turma.php';
-
+require_once '../config/db.php';
 class AlunoController {
     private $alunoModel;
     private $turmaModel;
 
-    public function __construct($db) {
+    public function __construct() {
+        $db = Database::getConnection();
         $this->alunoModel = new Aluno($db);
         $this->turmaModel = new Turma($db);
     }
